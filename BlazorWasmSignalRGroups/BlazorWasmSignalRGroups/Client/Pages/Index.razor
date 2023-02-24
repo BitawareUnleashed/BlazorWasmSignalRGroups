@@ -1,11 +1,14 @@
 ﻿@page "/"
 
-<button onclick="@CreateWatchClient" disabled="@isWatchDisabled">Register to Watch channel</button>
-<button onclick="@CreateNewsClient" disabled="@isNewsDisabled">Register to News channel</button>
+<h1>Benvenuti alla DotNET Conf 2023!</h1>
+<h2>SignalR: comunicazioni tra backend e frontend</h2>
+
+<button onclick="@CreateWatchClient" disabled="@isWatchDisabled">Registra al canale 'Orologio''</button>
+<button onclick="@CreateNewsClient" disabled="@isNewsDisabled">Registra al canale delle 'News''</button>
 
 
 
-<div style="font-size:xx-large">@watch</div>
+<div style="font-size: 100px; font-weight: 900">@watch</div>
 
 
 
