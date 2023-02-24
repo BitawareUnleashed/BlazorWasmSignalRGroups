@@ -8,19 +8,22 @@ public partial class Index
 {
     private HubConnection? hubConnection;
     private HubConnection? newsHubConnection;
-    private string Watch = string.Empty;
+    private string watch = string.Empty;
     private Article article;
+    private bool isNewsDisabled;
+    private bool isWatchDisabled;
 
 
-    protected override async Task OnInitializedAsync()
+    public async Task CreateWatchClient()
     {
         hubConnection = new HubConnectionBuilder()
             .WithUrl(new Uri("https://localhost:7014/communicationhub"))
-        .Build();
+            .Build();
 
         hubConnection.On<string>("SendMessage", message =>
         {
-            Watch = message ?? string.Empty;
+            watch = message ?? string.Empty;
+            Console.WriteLine("TIME group event");
             StateHasChanged();
         });
         await hubConnection.StartAsync();
@@ -28,8 +31,9 @@ public partial class Index
 
         // Add to group
         await hubConnection.SendAsync("AddClientToGroup", "TIME");
-    }
 
+        isWatchDisabled = true;
+    }
 
     public async Task CreateNewsClient()
     {
@@ -40,6 +44,7 @@ public partial class Index
         newsHubConnection.On<string>("SendMessage", message =>
         {
             article = JsonSerializer.Deserialize<Article>(message);
+            Console.WriteLine("NEWS group event");
             StateHasChanged();
         });
         await newsHubConnection.StartAsync();
@@ -47,6 +52,8 @@ public partial class Index
 
         // Add to group
         await newsHubConnection.SendAsync("AddClientToGroup", "NEWS");
+
+        isNewsDisabled = true;
     }
 }
 
