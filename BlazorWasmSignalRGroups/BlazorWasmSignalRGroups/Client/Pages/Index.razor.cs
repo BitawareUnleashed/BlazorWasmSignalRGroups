@@ -41,12 +41,20 @@ public partial class Index
             .WithUrl(new Uri("https://localhost:7014/communicationhub"))
             .Build();
 
-        newsHubConnection.On<string>("SendMessage", message =>
+        //newsHubConnection.On<string>("SendMessage", message =>
+        //{
+        //    article = JsonSerializer.Deserialize<Article>(message);
+        //    Console.WriteLine("NEWS group event");
+        //    StateHasChanged();
+        //});
+
+        newsHubConnection.On<Article>("SendNews", message =>
         {
-            article = JsonSerializer.Deserialize<Article>(message);
+            article = message;
             Console.WriteLine("NEWS group event");
             StateHasChanged();
         });
+
         await newsHubConnection.StartAsync();
 
 

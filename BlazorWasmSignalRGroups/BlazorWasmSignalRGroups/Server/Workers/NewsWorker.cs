@@ -18,13 +18,6 @@ public class NewsWorker
         apiKey = configuration["NewsApiKey"];
     }
 
-    //public void SetHub(HubConnection hub, string apiKey)
-    //{
-    //    this.hubConnection = hub;
-    //    this.apiKey = apiKey;
-    //}
-
-
     /// <summary>
     /// Gets the news caller.
     /// </summary>
@@ -53,9 +46,9 @@ public class NewsWorker
                 foreach (var item in news.articles)
                 {
                     await Task.Delay(15000, stoppingToken);
-                    var serializedArticle = JsonConvert.SerializeObject(item);
-
-                    _ = hubConnection?.SendAsync("SendToGroup", "NEWS", serializedArticle);
+                    //var serializedArticle = JsonConvert.SerializeObject(item);
+                    //_ = hubConnection?.SendAsync("SendToGroup", "NEWS", serializedArticle);
+                    _ = hubConnection?.SendAsync("SendToNews", "NEWS", item);
                 }
             }
         });
